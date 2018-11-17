@@ -72,11 +72,11 @@ var triviaGame = {
         var finishedButton = '<button class="btn btn-primary" id="done-button" type="submit">Done</button>';
         divContainer.append(doneButton);
         $("#done-button").on("click", gameMaster.timeStop);
-    
-    
-    }
 
     },
+
+
+        }
 
     var bridgeKeeper =
 
