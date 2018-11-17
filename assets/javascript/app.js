@@ -69,3 +69,39 @@ var triviaGame = {
         }
     }
     },
+
+    var bridgeKeeper =
+
+    [
+        {
+            question: "Who was Wolverine's very first adversary?",
+            answers: ["Spider-Man", "The Thing", "Cyclops", "The Hulk"],
+            correct: "The Hulk"
+        },
+        {
+            question: "Who killed Bruce Wayne's parents?",
+            answers: ["The Joker", "Carmine Falcone", "Joe Chill", "Sal Maroni"],
+            correct: "Joe Chill"
+        },
+        {
+            question: "Which one of these comics is NOT from Image Comics?",
+            answers: ["East of West",
+            "Saga", "Paper Girls", "Lady Killer"],
+            correct: "Lady Killer"
+        },
+        {
+            question: "Who is NOT within the Spider-Verse",
+            answers:["Miles Morales", "Gwen Stacy", "Spider-Ham", "Spider-Cop"],
+            correct: "Spider-Cop"
+        },
+        {
+            question: "Who broke Batman?",
+            answers: ["Superman", "The Joker", "Killer Croc", "Bane"],
+            correct: "Bane"
+        },
+        {
+            question: "Which character has NOT died?",
+            answers: ["Batman", "Spider-Man", "Wolverine", "Everyone Dies"],
+            correct: "Everyone Dies"
+        }
+    ]
