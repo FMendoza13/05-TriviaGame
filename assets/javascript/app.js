@@ -13,14 +13,20 @@ var gameMaster = {
 // start the quiz and timer, and show the questions page
 
 timeStart: function() {
-    $(".countdown").text("tickTock: " + gameMaster.tickTock);
+    $("#countdown").text("tickTock: " + gameMaster.tickTock);
     setInterval(gameMaster.tickTock, 1000);
-    $(".front-page").hide();
+    $("#front-page").hide();
     trivia.displayQuestions()
     },
 
     // countdown seconds on timer until 0
-
+    countdown: function() {
+        gameMaster.tickTock--;
+        $("#countdown").text("tickTock: " + gameMaster.tickTock);
+        if (gameMaster.tickTock === 0) {
+            gameMaster.timeStop();
+        }
+    },
 
 
 
