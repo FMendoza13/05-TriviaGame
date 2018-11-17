@@ -49,8 +49,8 @@ timeStart: function() {
 var triviaGame = {
 
     displayQuestions: function() {
-        var divContainer = $(".questions");
-        var answerBox = $(".form-check");
+        var divContainer = $("#questions");
+        var answerBox = $("#form-check");
         divContainer.append("<h2>Try your hand at the following questions:</h2>");
 
         for (var i = 0; i < bridgeKeeper.length; i++){
@@ -67,7 +67,15 @@ var triviaGame = {
             
             divContainer.append('<div class="form-check"><input class="form-check-input" type="radio" name="radio-group'+i+'" id="radio'+i+'"><label class="form-check-label" id="radio'+i+'label" for="radio'+i+'">' + answer3 + '</label></div>');
         }
+        // Let's try for a Finished button to head to score page
+
+        var finishedButton = '<button class="btn btn-primary" id="done-button" type="submit">Done</button>';
+        divContainer.append(doneButton);
+        $("#done-button").on("click", gameMaster.timeStop);
+    
+    
     }
+
     },
 
     var bridgeKeeper =
