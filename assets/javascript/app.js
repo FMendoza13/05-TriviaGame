@@ -75,7 +75,7 @@ var trivia = {
     //      correctAnswers++
     //   else 
     //      wrongAnswers++
-    // numUnanswered = num of possibleCorrectanswers - number of values selected
+    // numUnanswered = num of possibleCorrectanswers - number of values 
     numUnanswered = correctAnswers.length - $("input[type='radio']:checked").length 
 
     showEndPage(numCorrect, numIncorrect,numUnanswered);
