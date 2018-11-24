@@ -1,21 +1,95 @@
 $(document).ready(function() {
   // I need a start button to start quiz
-  $("#start").on("click", gameMaster.timeStart);
-});
-// This variable describes where the game is in progress
-var gameMaster = {
+  
+  var timestart = function() {
+    $("#countdown").text("Tick-Tock: " + gameMaster.tickTock);
+    gameMaster.intervalId = setInterval(countdown, 1000);
+    $("#front-page").hide();
+    trivia.displayQuestions();
+  }
 
-   intervalId: 0, 
-  tickTock: 120
-
-  // start the quiz and timer, and show the questions page
-};
-function timeStart() {
-  $("#countdown").text("Tick-Tock: " + gameMaster.tickTock);
-  gameMaster.intervalId = setInterval(countdown, 1000);
-  $("#front-page").hide();
-  trivia.displayQuestions();
+  // last page with the results of the quiz sans questions
+function showEndPage(numCorrect, numIncorrect, numUnanswered) {
+  $("#last-page").show();
+  $("#questions").empty();
+  $("#countdown").empty();
+  $("#right-answers").text("Right Answers (You know it!): " + numCorrect);
+  $("#wrong-answers").text("Wrong Answers (Ya blew it!): " + numIncorrect);
+  $("#unanswered").text(
+    "Answers Left Blank (You didn't even try!): " + numUnanswered
+  );
 }
+
+
+  //    some functions for building questions and to add to score
+var trivia = {
+  displayQuestions: function() {
+    var divContainer = $("#questions");
+    var answerBox = $("#form-check");
+    divContainer.append("<h2>Try your hand at the following questions:</h2>");
+
+    for (var i = 0; i < bridgeKeeper.length; i++) {
+      divContainer.append(
+        `<div id="question${i}"> ${bridgeKeeper[i].question} </div>`
+      );
+      var answers = bridgeKeeper[i].answers;
+      for(var j = 0; j < answers.length; j++) {
+        divContainer.append(
+          `<div class="form-check">
+            <input class="form-check-input" type="radio" name="radio-group${i}" id="radio${i}${j}" value="${answers[j]}">
+            <label class="form-check-label" id="radio${i}${j}label" for="radio${i}${j}">  ${answers[j]}</label>
+          </div>`
+        );  
+      }
+        
+    }
+    // Let's try for a Finished button to head to score page
+
+    var doneButton =
+      '<button class="btn btn-primary" id="done-button" type="submit">Done</button>';
+    divContainer.append(doneButton);
+    $("#done-button").on("click", timeStop);
+  },
+  checkAnswers: function() {
+    console.log('checking answers')
+    clearInterval(gameMaster.intervalId)
+    // ADD checking answser logic here
+    var numCorrect = 0
+    var numIncorrect = 0
+    var numUnanswered = 0;
+    // get all the correct answers
+    var correctAnswers = []
+    for (var i = 0; i < bridgeKeeper.length; i++) {
+      correctAnswers.push(bridgeKeeper[i].correct)
+    }
+    // get all the input values from the radio inputs
+    $("input[type='radio']:checked").each(function(){
+      if (correctAnswers.includes($(this).val())) {
+        numCorrect++
+      } else {
+        numIncorrect++
+      }
+    })
+    // for each value:
+    //   if the value of the radio button is equal to the correct answer 
+    //      correctAnswers++
+    //   else 
+    //      wrongAnswers++
+    // numUnanswered = num of possibleCorrectanswers - number of values selected
+    numUnanswered = correctAnswers.length - $("input[type='radio']:checked").length 
+
+    showEndPage(numCorrect, numIncorrect,numUnanswered);
+  }
+};
+  
+  $("#start").on("click", timestart)
+  // This variable describes where the game is in progress
+  var gameMaster = {
+    intervalId: 0, 
+    tickTock: 120
+  }
+
+
 
 // countdown seconds on timer until 0
 function countdown() {
@@ -28,87 +102,11 @@ function countdown() {
 }
 
 // Stop timer, please!
-function timeStop() {
+var timeStop = function() {
   clearInterval();
   trivia.checkAnswers();
 }
-// last page with the results of the quiz sans questions
-function showEndPage(numCorrect, numIncorrect, numUnanswered) {
-  $("#last-page").show();
-  $("#questions").empty();
-  $("#countdown").empty();
-  $("#right-answers").text("Right Answers (You know it!): " + numCorrect);
-  $("#wrong-answers").text("Wrong Answers (Ya blew it!): " + numIncorrect);
-  $("#unanswered").text(
-    "Answers Left Blank (You didn't even try!): " + numUnanswered
-  );
-}
-//    some functions for building questions and to add to score
-var triviaGame = {
-  displayQuestions: function() {
-    var divContainer = $("#questions");
-    var answerBox = $("#form-check");
-    divContainer.append("<h2>Try your hand at the following questions:</h2>");
 
-    for (var i = 0; i < bridgeKeeper.length; i++) {
-      divContainer.append(
-        '<div id="question">' + bridgeKeeper[i].question + "</div>"
-      );
-
-      var answer1 = bridgeKeeper[i].answers[0];
-      var answer2 = bridgeKeeper[i].answers[1];
-      var answer3 = bridgeKeeper[i].answers[2];
-
-      divContainer.append(
-        '<div class="form-check"><input class="form-check-input" type="radio" name="radio-group' +
-          i +
-          '" id="radio' +
-          i +
-          '"><label class="form-check-label" id="radio' +
-          i +
-          'label" for="radio' +
-          i +
-          '">' +
-          answer1 +
-          "</label></div>"
-      );
-
-      divContainer.append(
-        '<div class="form-check"><input class="form-check-input" type="radio" name="radio-group' +
-          i +
-          '" id="radio' +
-          i +
-          '"><label class="form-check-label" id="radio' +
-          i +
-          'label" for="radio' +
-          i +
-          '">' +
-          answer2 +
-          "</label></div>"
-      );
-
-      divContainer.append(
-        '<div class="form-check"><input class="form-check-input" type="radio" name="radio-group' +
-          i +
-          '" id="radio' +
-          i +
-          '"><label class="form-check-label" id="radio' +
-          i +
-          'label" for="radio' +
-          i +
-          '">' +
-          answer3 +
-          "</label></div>"
-      );
-    }
-    // Let's try for a Finished button to head to score page
-
-    var finishedButton =
-      '<button class="btn btn-primary" id="done-button" type="submit">Done</button>';
-    divContainer.append(doneButton);
-    $("#done-button").on("click", gameMaster.timeStop);
-  }
-};
 
 var bridgeKeeper = [
   {
@@ -142,3 +140,4 @@ var bridgeKeeper = [
     correct: "Everyone Dies"
   }
 ];
+});
